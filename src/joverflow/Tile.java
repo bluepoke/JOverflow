@@ -5,10 +5,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
+import javax.swing.RepaintManager;
 
 public class Tile extends JLabel implements MouseListener {
 
-    private int value = 4;
+    private int value = 0;
     private Player owner = null;
     private Tile neighborTop = null;
     private Tile neighborBottom = null;
@@ -30,39 +31,36 @@ public class Tile extends JLabel implements MouseListener {
 	this.owner = owner;
 	if (owner != null) {
 	    this.setBackground(owner.getColor());
+	    this.setOpaque(true);
 	} else {
 	    this.setBackground(DEFAULT_COLOR);
 	}
     }
     
-    public void increaseValue() {
+    public void increaseValue(Player owner) {
+	setOwner(owner);
 	value++;
-//	try {
-//	    Thread.sleep(100);
-//	} catch (InterruptedException e) {
-//	    e.printStackTrace();
-//	}
 	if (value>threshold) {
 	    resetValue();
 	    this.repaint();
 	    if (neighborTop != null) {
-		neighborTop.increaseValue();
+		neighborTop.increaseValue(owner);
 	    }
 	    if (neighborBottom != null) {
-		neighborBottom.increaseValue();
+		neighborBottom.increaseValue(owner);
 	    }
 	    if (neighborLeft != null) {
-		neighborLeft.increaseValue();
+		neighborLeft.increaseValue(owner);
 	    }
 	    if (neighborRight != null) {
-		neighborRight.increaseValue();
+		neighborRight.increaseValue(owner);
 	    }
 	}
 	setText(String.valueOf(value));
     }
     
     private void resetValue() {
-	value = 0;
+	value = 1;
 	setText(String.valueOf(value));
     }
     
@@ -89,7 +87,11 @@ public class Tile extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-	increaseValue();
+	Player activePlayer = JOverflow.getActivePlayer();
+	if (activePlayer.equals(owner) || owner == null) {
+	    increaseValue(activePlayer);
+	    JOverflow.switchPlayer();
+	}
     }
 
     @Override

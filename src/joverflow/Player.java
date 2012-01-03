@@ -7,6 +7,11 @@ public class Player {
 	private Color color;
 	private String name;
 	
+	public Player (String name, Color color) {
+	    this.name = name;
+	    this.color = color;
+	}
+	
 	
 	public String getName() {
 		return name;
@@ -26,5 +31,16 @@ public class Player {
 		this.color = color;
 	}
 
-	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj instanceof Player) {
+		Player playerObj = (Player) obj;
+		if (playerObj.getName().equals(name) && playerObj.getColor().equals(color)) {
+		    return true;
+		}
+	    } 
+		
+	    return false;
+	    
+	}
 }

@@ -1,5 +1,6 @@
 package joverflow;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -15,10 +16,18 @@ import java.awt.event.InputEvent;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
 
 public class JOverflow {
-
+    
+    	private static Player player1 = new Player("Player 1", Color.RED);
+    	private static Player player2 = new Player("Player 2", Color.YELLOW);
+    	private static Player activePlayer = player1;
+    	
 	private JFrame frmJoverflow;
+	private static JLabel lblStatusLabel;
+	private static Grid grid;
 
 	/**
 	 * Launch the application.
@@ -51,7 +60,12 @@ public class JOverflow {
 		frmJoverflow.setTitle("JOverflow");
 		frmJoverflow.setBounds(100, 100, 400, 400);
 		frmJoverflow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmJoverflow.getContentPane().add(new Grid(10));
+		frmJoverflow.getContentPane().setLayout(new BorderLayout(0, 0));
+		grid = new Grid(10);
+		frmJoverflow.getContentPane().add(grid);
+		
+		lblStatusLabel = new JLabel("New label");
+		frmJoverflow.getContentPane().add(lblStatusLabel, BorderLayout.SOUTH);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmJoverflow.setJMenuBar(menuBar);
@@ -65,6 +79,10 @@ public class JOverflow {
 			    System.exit(0);
 			}
 		});
+		
+		JMenuItem mntmOptions = new JMenuItem("Options");
+		mntmOptions.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.ALT_MASK));
+		mnFile.add(mntmOptions);
 		mntmQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.ALT_MASK));
 		mnFile.add(mntmQuit);
 		
@@ -86,5 +104,32 @@ public class JOverflow {
 		chckbxmntmFullscreen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, InputEvent.ALT_MASK));
 		mnView.add(chckbxmntmFullscreen);		
 	}
+
+	public static Player getActivePlayer() {
+	    return activePlayer;
+	}
+
+	public static void setActivePlayer(Player activePlayer) {
+	    JOverflow.activePlayer = activePlayer;
+	}
+
+	public static void switchPlayer() {
+	    if (activePlayer.equals(player1)) {
+		activePlayer = player2;
+	    } else {
+		activePlayer = player1;
+	    }
+	    updateStatusbar();
+	    
+	}
+
+	private static void updateStatusbar() {
+	    lblStatusLabel.setText("Player: "+activePlayer.getName());
+	    lblStatusLabel.setOpaque(true);
+	    lblStatusLabel.setBackground(activePlayer.getColor());
+	    
+	}
+	
+	
 
 }
