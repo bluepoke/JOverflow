@@ -12,12 +12,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.event.InputEvent;
 import javax.swing.JCheckBoxMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import java.awt.Toolkit;
 
 public class JOverflow {
     
@@ -33,7 +37,12 @@ public class JOverflow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+	    try {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (Exception e) {
+		System.err.println("Could not set system's look and feel.");
+	    }
+	    EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					JOverflow window = new JOverflow();
@@ -57,6 +66,7 @@ public class JOverflow {
 	 */
 	private void initialize() {
 		frmJoverflow = new JFrame();
+		frmJoverflow.setIconImage(Toolkit.getDefaultToolkit().getImage(JOverflow.class.getResource("/joverflow/img/joverflow.gif")));
 		frmJoverflow.setTitle("JOverflow");
 		frmJoverflow.setBounds(100, 100, 400, 400);
 		frmJoverflow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
