@@ -20,19 +20,19 @@ public class Grid extends JPanel {
     private Tile[][] tileGrid;
     private Dimension tileSize = new Dimension(20, 20);
     private Border border = new LineBorder(Color.BLACK);
-    
+
     public Grid(int size) {
 	// initialize empty grid
 	GridLayout gl = new GridLayout(size, size);
 	this.setLayout(gl);
-	
+
 	Tile t;
 	tileGrid = new Tile[size][size];
-	for (int row = 0; row<tileGrid.length; row++) {
+	for (int row = 0; row < tileGrid.length; row++) {
 	    Tile[] tileRow = tileGrid[row];
-	    for (int col = 0; col<tileRow.length; col++) {
+	    for (int col = 0; col < tileRow.length; col++) {
 		t = new Tile();
-		tileGrid[row][col] = t; 
+		tileGrid[row][col] = t;
 		t.setPreferredSize(tileSize);
 		t.setBorder(border);
 		t.setHorizontalAlignment(SwingConstants.CENTER);
@@ -40,13 +40,42 @@ public class Grid extends JPanel {
 		this.add(tileGrid[row][col]);
 	    }
 	}
-    }
-    
-    public void setTileSize(int width, int height) {
-	this.tileSize  = new Dimension(width, height);
-	for (int row = 0; row<tileGrid.length; row++) {
+	// setup neighbors
+	Tile nt, nb, nl, nr; // neighbors top, bottom, left, right
+	for (int row = 0; row < tileGrid.length; row++) {
 	    Tile[] tileRow = tileGrid[row];
-	    for (int col = 0; col<tileRow.length; col++) {
+	    for (int col = 0; col < tileRow.length; col++) {
+		t = tileGrid[row][col];
+		if (row > 0) {
+		    nt = tileGrid[row - 1][col];
+		} else {
+		    nt = null;
+		}
+		if (row < tileGrid.length - 1) {
+		    nb = tileGrid[row + 1][col];
+		} else {
+		    nb = null;
+		}
+		if (col > 0) {
+		    nl = tileGrid[row][col-1];
+		} else {
+		    nl = null;
+		}
+		if (col < tileRow.length-1) {
+		    nr = tileGrid[row][col+1];
+		} else {
+		    nr = null;
+		}
+		t.setNeighbors(nt, nb, nl, nr);
+	    }
+	}
+    }
+
+    public void setTileSize(int width, int height) {
+	this.tileSize = new Dimension(width, height);
+	for (int row = 0; row < tileGrid.length; row++) {
+	    Tile[] tileRow = tileGrid[row];
+	    for (int col = 0; col < tileRow.length; col++) {
 		tileGrid[row][col].setPreferredSize(tileSize);
 	    }
 	}
