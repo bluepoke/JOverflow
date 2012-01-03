@@ -17,7 +17,7 @@ public class Tile extends JLabel implements MouseListener {
 
     private static final Color DEFAULT_COLOR = Color.GRAY;
     
-    private static final int THRESHOLD = 4;
+    private int threshold = 4;
     
     public Tile() {
 	super();
@@ -42,7 +42,7 @@ public class Tile extends JLabel implements MouseListener {
 //	} catch (InterruptedException e) {
 //	    e.printStackTrace();
 //	}
-	if (value>THRESHOLD) {
+	if (value>threshold) {
 	    resetValue();
 	    this.repaint();
 	    if (neighborTop != null) {
@@ -71,6 +71,20 @@ public class Tile extends JLabel implements MouseListener {
 	neighborBottom = bottom;
 	neighborLeft = left;
 	neighborRight = right;
+	recalculateThreshold();
+    }
+
+    private void recalculateThreshold() {
+	int newThreshold = 0;
+	if (neighborTop != null)
+	    newThreshold++;
+	if (neighborBottom != null)
+	    newThreshold++;
+	if (neighborLeft != null)
+	    newThreshold++;
+	if (neighborRight != null)
+	    newThreshold++;
+	threshold = newThreshold;
     }
 
     @Override
