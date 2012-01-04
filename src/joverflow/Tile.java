@@ -6,6 +6,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JLabel;
 import javax.swing.RepaintManager;
@@ -26,6 +28,7 @@ public class Tile extends JLabel implements MouseListener {
     private static final Border BORDER_INACTIVE = new LineBorder(Color.BLACK);
     private static final Border BORDER_ACTIVE = new LineBorder(Color.WHITE);
     private static final Color ACTIVE_COLOR = Color.WHITE;
+    private static final ArrayList<Tile> increaseQueue = new ArrayList<Tile>();
 
 
     private static final Color DEFAULT_COLOR = Color.GRAY;
@@ -53,7 +56,8 @@ public class Tile extends JLabel implements MouseListener {
 	}
     }
     
-    public void increaseValue(Player owner) {
+    public ArrayList<Tile> increaseValue(Player owner) {
+	ArrayList<Tile> neighborsToIncrease = new ArrayList<Tile>();
 	setOwner(owner);
 	setBorder(BORDER_ACTIVE);
 	setBackground(ACTIVE_COLOR);
@@ -68,21 +72,27 @@ public class Tile extends JLabel implements MouseListener {
 	setBackground(owner.getColor());
 	if (value>threshold) {
 	    resetValue();
-	    this.repaint();
+	    //this.repaint();
 	    if (neighborTop != null) {
-		neighborTop.increaseValue(owner);
+		// neighborTop.increaseValue(owner);
+		neighborsToIncrease.add(neighborTop);
 	    }
 	    if (neighborBottom != null) {
-		neighborBottom.increaseValue(owner);
+		// neighborBottom.increaseValue(owner);
+		neighborsToIncrease.add(neighborBottom);
 	    }
 	    if (neighborLeft != null) {
-		neighborLeft.increaseValue(owner);
+		//neighborLeft.increaseValue(owner);
+		neighborsToIncrease.add(neighborLeft);
 	    }
 	    if (neighborRight != null) {
-		neighborRight.increaseValue(owner);
+		//neighborRight.increaseValue(owner);
+		neighborsToIncrease.add(neighborRight);
 	    }
 	}
 	setText(String.valueOf(value));
+	//Collections.shuffle(neighborsToIncrease);
+	return neighborsToIncrease;
     }
     
     private void resetValue() {
@@ -113,13 +123,24 @@ public class Tile extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+	final Tile currentTile = this;
 	final Player activePlayer = JOverflow.getActivePlayer();
 	if (activePlayer.equals(owner) || owner == null) {
 	    SwingWorker<Integer, Integer> incraseSW = new SwingWorker<Integer, Integer>() {
 
 		@Override
 		protected Integer doInBackground() throws Exception {
-		    increaseValue(activePlayer);
+		    ArrayList<Tile> tileQueue = new ArrayList<Tile>();
+		    ArrayList<Tile> appendQueue;
+		    tileQueue.add(currentTile);
+		    Tile t;
+		    while (tileQueue.size()>0) {
+			t = tileQueue.remove(0);
+			appendQueue = t.increaseValue(activePlayer);
+			tileQueue.addAll(appendQueue);
+			Collections.shuffle(tileQueue);
+		    }
+		    //increaseValue(activePlayer);
 		    return null;
 		}
 		

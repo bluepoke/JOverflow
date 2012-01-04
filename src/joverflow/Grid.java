@@ -18,9 +18,15 @@ import javax.swing.border.LineBorder;
 public class Grid extends JPanel {
 
     private Tile[][] tileGrid;
+    private static final int DEFAULT_SIZE = 10;
 
+    public Grid() {
+	this(DEFAULT_SIZE);
+    }
+    
     public Grid(int size) {
 	// initialize empty grid
+	
 	GridLayout gl = new GridLayout(size, size);
 	this.setLayout(gl);
 
