@@ -71,7 +71,7 @@ public class JOverflow {
 		frmJoverflow.setBounds(100, 100, 400, 400);
 		frmJoverflow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJoverflow.getContentPane().setLayout(new BorderLayout(0, 0));
-		grid = new Grid(10);
+		grid = new Grid(8);
 		frmJoverflow.getContentPane().add(grid);
 		
 		lblStatusLabel = new JLabel("New label");
