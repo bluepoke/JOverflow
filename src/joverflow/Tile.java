@@ -16,7 +16,8 @@ import javax.swing.border.LineBorder;
 public class Tile extends JLabel implements MouseListener {
 
     private static Font font = new Font("SansSerif", Font.PLAIN, 12);
-    private int value = 4;
+    private static int INITIAL_VALUE = 0;
+    private int value;
     private Player owner = null;
     private Tile neighborTop = null;
     private Tile neighborBottom = null;
@@ -31,6 +32,7 @@ public class Tile extends JLabel implements MouseListener {
     
     public Tile() {
 	super();
+	this.value = INITIAL_VALUE;
 	this.addMouseListener(this);
 	this.setText(String.valueOf(value));
 	this.setBackground(DEFAULT_COLOR);
