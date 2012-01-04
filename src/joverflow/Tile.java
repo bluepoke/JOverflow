@@ -2,15 +2,12 @@ package joverflow;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.JLabel;
-import javax.swing.RepaintManager;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.border.Border;
@@ -28,9 +25,6 @@ public class Tile extends JLabel implements MouseListener {
     private static final Border BORDER_INACTIVE = new LineBorder(Color.BLACK);
     private static final Border BORDER_ACTIVE = new LineBorder(Color.WHITE);
     private static final Color ACTIVE_COLOR = Color.WHITE;
-    private static final ArrayList<Tile> increaseQueue = new ArrayList<Tile>();
-
-
     private static final Color DEFAULT_COLOR = Color.GRAY;
     
     private int threshold = 4;

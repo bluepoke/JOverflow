@@ -1,13 +1,8 @@
 package joverflow;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 /**
  * This class represents the grid containing the tiles of the board.
