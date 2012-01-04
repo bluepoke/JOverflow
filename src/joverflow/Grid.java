@@ -64,4 +64,14 @@ public class Grid extends JPanel {
 	    }
 	}
     }
+
+    public void resizeTiles() {
+	for (int row = 0; row < tileGrid.length; row++) {
+	    Tile[] tileRow = tileGrid[row];
+	    for (int col = 0; col < tileRow.length; col++) {
+		tileGrid[row][col].resize();
+		
+	    }
+	}
+    }
 }

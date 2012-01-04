@@ -22,6 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class JOverflow {
     
@@ -66,12 +68,18 @@ public class JOverflow {
 	 */
 	private void initialize() {
 		frmJoverflow = new JFrame();
+		frmJoverflow.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+			    grid.resizeTiles();
+			}
+		});
 		frmJoverflow.setIconImage(Toolkit.getDefaultToolkit().getImage(JOverflow.class.getResource("/joverflow/img/joverflow.gif")));
 		frmJoverflow.setTitle("JOverflow");
 		frmJoverflow.setBounds(100, 100, 400, 400);
 		frmJoverflow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJoverflow.getContentPane().setLayout(new BorderLayout(0, 0));
-		grid = new Grid(8);
+		grid = new Grid(25);
 		frmJoverflow.getContentPane().add(grid);
 		
 		lblStatusLabel = new JLabel("New label");
